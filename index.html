@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guna Sai Teja K – Portfolio</title>
+<meta name="description" content="Netflix-style portfolio of Guna Sai Teja K, aspiring software engineer.">
+<style>
+:root{--bg:#141414;--card:#222;--red:#e50914;--text:#f5f5f5;--muted:#b3b3b3}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Helvetica Neue",Arial,sans-serif}
+a{color:inherit}
+:focus-visible{outline:3px solid #fff;outline-offset:2px}
+nav{position:fixed;top:0;left:0;right:0;z-index:10;display:flex;align-items:center;gap:24px;padding:14px 4%;background:linear-gradient(#000c,transparent)}
+nav .logo{color:var(--red);font-weight:900;font-size:1.5rem;letter-spacing:1px;text-decoration:none}
+nav a.l{font-size:.9rem;color:var(--muted);text-decoration:none}
+nav a.l:hover{color:#fff}
+.hero{min-height:82vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 4% 90px;background:linear-gradient(90deg,#141414 25%,#14141400 80%),linear-gradient(0deg,#141414,#14141400 40%),radial-gradient(circle at 80% 30%,#7a0b12,#1b1b3a 60%,#141414)}
+.hero small{color:var(--red);font-weight:700;letter-spacing:2px}
+.hero h1{font-size:clamp(2.4rem,7vw,5rem);margin:6px 0;max-width:12em;line-height:1}
+.hero p{max-width:34em;color:#ddd;font-size:1.1rem}
+.btn{display:inline-block;border:0;border-radius:4px;padding:10px 26px;font-size:1.05rem;font-weight:700;cursor:pointer;margin:6px 10px 0 0;text-decoration:none}
+.btn.play{background:#fff;color:#000}.btn.info{background:#6d6d6eb3;color:#fff}
+.row{padding:0 4%;margin:-40px 0 36px;position:relative}
+.row h2{font-size:1.25rem;margin:0 0 10px}
+.track{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 0 14px;scrollbar-width:none}
+.track::-webkit-scrollbar{display:none}
+.card{flex:0 0 auto;width:260px;height:146px;border:0;border-radius:6px;padding:14px;color:#fff;text-align:left;cursor:pointer;scroll-snap-align:start;display:flex;flex-direction:column;justify-content:flex-end;transition:transform .2s}
+.card:hover,.card:focus-visible{transform:scale(1.07);z-index:2}
+.card b{font-size:1.05rem}.card span{font-size:.8rem;opacity:.85}
+.arrow{position:absolute;top:34px;bottom:14px;width:4%;border:0;background:#000a;color:#fff;font-size:2rem;cursor:pointer;z-index:3}
+.arrow.l{left:0}.arrow.r{right:0}
+dialog{width:min(640px,92vw);border:0;border-radius:8px;background:#181818;color:var(--text);padding:0}
+dialog::backdrop{background:#000b}
+.mh{height:180px;padding:22px;display:flex;align-items:flex-end;font-size:1.8rem;font-weight:800}
+.mb{padding:20px 24px 26px}
+.mb .m{color:#46d369;font-weight:700;font-size:.95rem}
+.mb ul{padding-left:20px;color:#ddd}
+.tags{color:var(--muted);font-size:.9rem}
+.x{position:absolute;right:12px;top:12px;width:36px;height:36px;border-radius:50%;border:0;background:#181818;color:#fff;font-size:1.2rem;cursor:pointer}
+footer{padding:30px 4% 60px;color:var(--muted);font-size:.9rem;text-align:center}
+@media(max-width:600px){nav a.l{display:none}.card{width:200px;height:120px}}
+@media(prefers-reduced-motion:reduce){.card{transition:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<nav><a class="logo" href="#top">GUNA</a><a class="l" href="#projects">Projects</a><a class="l" href="#experience">Experience</a><a class="l" href="#sims">Simulations</a><a class="l" href="#skills">Skills</a><a class="l" href="#education">Education</a></nav>
+
+<header class="hero" id="top">
+<small>A PORTFOLIO</small>
+<h1>Guna Sai Teja K</h1>
+<p>Aspiring Software Engineer. C++, Java, Python, SQL and full-stack MERN apps. B.Tech CSE student, open to work.</p>
+<div><button class="btn play" id="heroPlay">&#9654; View City Care</button><a class="btn info" href="#projects">More projects</a><a class="btn info" id="liBtn" href="#" hidden>LinkedIn</a><a class="btn info" id="ghBtn" href="#" hidden>GitHub</a></div>
+</header>
+
+<main id="rows"></main>
+<footer>Built with HTML, CSS and JavaScript. &copy; 2026 Guna Sai Teja K</footer>
+
+<dialog id="modal" aria-labelledby="mt"><button class="x" aria-label="Close" id="close">&times;</button><div class="mh" id="mh"><span id="mt"></span></div><div class="mb" id="mb"></div></dialog>
+
+<script>
+/* ===== EDIT THIS: your links (leave "" to hide a button) ===== */
+const LINKS = { linkedin:"", github:"", email:"" };
+const LIVE = { "City Care":"" }; // paste your Render URL here
+
+const G = ["linear-gradient(135deg,#e50914,#4a0a0e)","linear-gradient(135deg,#0072ff,#00152e)","linear-gradient(135deg,#7b2ff7,#1d0a3a)","linear-gradient(135deg,#00b09b,#033a33)","linear-gradient(135deg,#f7971e,#4a2b00)","linear-gradient(135deg,#ec008c,#3d0426)"];
+
+const DATA = [
+ {id:"projects", title:"Projects", items:[
+  {t:"City Care", s:"Sep 2026 – present", d:["Civic issue reporting app, live on Render.","Residents report local problems and track them to resolution."], tags:"MongoDB · Express · Cloudinary · REST APIs"},
+  {t:"ShopEZ", s:"Apr – Jun 2026", d:["React e-commerce app.","Product browsing, cart and checkout flow."], tags:"React.js · JavaScript · CSS"},
+  {t:"Geldium GenAI Analytics", s:"Aug 2026 – present · Tata Forage", d:["GenAI-powered data analytics project built on the Tata job simulation."], tags:"Python · Data analytics · GenAI"},
+  {t:"Deloitte Web Portfolio", s:"Forage simulation", d:["Web portfolio project from the Deloitte Australia Technology simulation."], tags:"Web development"},
+  {t:"Phishing Awareness", s:"Mastercard Forage", d:["Phishing awareness project from the Mastercard Cybersecurity simulation."], tags:"Cybersecurity"}]},
+ {id:"experience", title:"Experience", items:[
+  {t:"Full Stack Developer (MERN)", s:"SmartBridge / APSCHE · Completed 29 Aug 2026", d:["120-hour virtual internship building MERN stack applications."], tags:"MongoDB · Express · React · Node.js"},
+  {t:"Global Immersion Program", s:"Indoeurosync · Sep 2026 – present", d:["AI and robotics exchange with CyberSol at MASCoR, Aachen."], tags:"AI · Robotics"},
+  {t:"Business Development Executive", s:"NxtSync, Hyderabad · May – Oct 2025", d:["Business development internship."], tags:"Business development"},
+  {t:"AI with ChatGPT", s:"NxtSync · May – Jul 2025", d:["Internship on using ChatGPT and AI tools."], tags:"AI · Prompting"}]},
+ {id:"sims", title:"Job Simulations and Achievements", items:[
+  {t:"Mastercard Cybersecurity", s:"Forage · Oct 2026", d:["Job simulation."], tags:"Cybersecurity"},
+  {t:"Deloitte Australia Cyber", s:"Forage · Oct 2026", d:["Job simulation."], tags:"Cybersecurity"},
+  {t:"Deloitte Australia Technology", s:"Forage · Oct 2026", d:["Job simulation."], tags:"Technology"},
+  {t:"Tata GenAI Data Analytics", s:"Forage · Oct 2026", d:["Job simulation."], tags:"GenAI · Analytics"},
+  {t:"HackWithHyderabad 3.0", s:"3 Oct 2026 · Microsoft Office Hyderabad", d:["Participated in an 8-hour hackathon."], tags:"Hackathon"},
+  {t:"200+ C Programs", s:"Yellow Belt on CodeMind", d:["Solved over 200 C programs."], tags:"Problem solving"}]},
+ {id:"skills", title:"Skills", items:[
+  {t:"Languages", s:"", d:["Python, Java, C++, C, SQL, JavaScript"], tags:""},
+  {t:"Web", s:"", d:["React.js, Node.js, Express.js, HTML/CSS"], tags:""},
+  {t:"Data and Tools", s:"", d:["MongoDB, SQL, Git/GitHub, Linux, Data Structures"], tags:""}]},
+ {id:"education", title:"Education", items:[
+  {t:"B.Tech CSE", s:"Oct 2023 – Jun 2027 · Grade 7.5", d:["Aditya College of Engineering and Technology, Surampalem (JNTU Kakinada)."], tags:""},
+  {t:"Intermediate (10+2)", s:"Grade 64", d:["Priyadarshi Junior College."], tags:""}]}
+];
+
+const rows = document.getElementById("rows"), modal = document.getElementById("modal");
+let n = 0;
+function open(it, g){
+  document.getElementById("mh").style.background = g;
+  document.getElementById("mt").textContent = it.t;
+  const live = LIVE[it.t] ? `<a class="btn play" href="${LIVE[it.t]}" target="_blank" rel="noopener">&#9654; Live demo</a>` : "";
+  document.getElementById("mb").innerHTML = (it.s ? `<p class="m">${it.s}</p>` : "") + "<ul>" + it.d.map(x=>`<li>${x}</li>`).join("") + "</ul>" + (it.tags ? `<p class="tags">${it.tags}</p>` : "") + live;
+  modal.showModal();
+}
+DATA.forEach(sec=>{
+  const r = document.createElement("section"); r.className="row"; r.id=sec.id;
+  r.innerHTML = `<h2>${sec.title}</h2><button class="arrow l" aria-label="Scroll left">&#8249;</button><div class="track"></div><button class="arrow r" aria-label="Scroll right">&#8250;</button>`;
+  const tr = r.querySelector(".track");
+  sec.items.forEach(it=>{
+    const g = G[n++ % G.length], b = document.createElement("button");
+    b.className="card"; b.style.background=g;
+    b.innerHTML = `<b>${it.t}</b><span>${it.s}</span>`;
+    b.onclick = ()=>open(it,g); tr.appendChild(b);
+  });
+  r.querySelector(".l").onclick = ()=>tr.scrollBy({left:-600,behavior:"smooth"});
+  r.querySelector(".r").onclick = ()=>tr.scrollBy({left:600,behavior:"smooth"});
+  rows.appendChild(r);
+});
+document.getElementById("heroPlay").onclick = ()=>open(DATA[0].items[0], G[0]);
+document.getElementById("close").onclick = ()=>modal.close();
+modal.addEventListener("click", e=>{ if(e.target===modal) modal.close(); });
+[["liBtn",LINKS.linkedin],["ghBtn",LINKS.github]].forEach(([id,u])=>{ if(u){const a=document.getElementById(id); a.href=u; a.hidden=false; a.target="_blank"; a.rel="noopener";} });
+</script>
+</body>
+</html>
